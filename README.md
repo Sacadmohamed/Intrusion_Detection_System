@@ -48,3 +48,36 @@ Tested_Data = pd.read_csv(r'C:\Users\Hp\Downloads\IDS_FinalProject\Tested_data.c
 Trained_Data
 ```
 ![Trained_Data](https://github.com/user-attachments/assets/b8bd9270-6f45-446b-bff4-d0b4821cb4de)
+
+
+``` python
+Trained_Data
+```
+![Test_data](https://github.com/user-attachments/assets/2dea682d-0ea8-4eb6-be9f-e39641b5e192)
+
+# Data Processing
+``` python
+Results = set(Trained_Data['class'].values)
+print(Results,end=" ")
+```
+![anomaly](https://github.com/user-attachments/assets/75b9abc7-8206-4845-af22-79e351b6a432)
+
+# Creation of attack_state column
+``` python
+Trained_attack = Trained_Data['class'].map(lambda a: 0 if a == 'normal' else 1)
+Tested_attack = Tested_Data['class'].map(lambda a: 0 if a == 'normal' else 1)
+
+Trained_Data['attack_state'] = Trained_attack
+Tested_Data['attack_state'] = Tested_attack
+```
+
+![attack_state](https://github.com/user-attachments/assets/cd886c5d-53cb-43ad-9bff-925cf7a469f0)
+
+# Box Plotting for the Trained and Test Data
+Trained Boxplot for checking outliers
+
+``` python
+Trained_Data.plot(kind='box', subplots=True, layout=(8, 5), figsize=(20, 40))
+plt.show()
+```
+
