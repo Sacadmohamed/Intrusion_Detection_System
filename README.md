@@ -204,4 +204,5 @@ plt.title('Receiver Operating Characteristic')
 plt.legend(loc="lower right")
 plt.show()
 ```
-![Uploading LG_ROC.PNG…]()
+
+![LG_ROC](https://github.com/user-attachments/assets/43bc5400-c371-4927-86d1-ddd4dce6e5d1)
