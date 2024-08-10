@@ -35,3 +35,16 @@ from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import GridSearchCV
 from mlxtend.plotting import plot_confusion_matrix
 ```
+
+# Data uploading
+Uploading the Train and the Test dataset from the computer to the notejupyter environment
+
+``` python
+Trained_Data = pd.read_csv(r'C:\Users\Hp\Downloads\IDS_FinalProject\Trained_data.csv')
+Tested_Data = pd.read_csv(r'C:\Users\Hp\Downloads\IDS_FinalProject\Tested_data.csv')
+```
+
+```python
+Trained_Data
+```
+![Trained_Data](https://github.com/user-attachments/assets/b8bd9270-6f45-446b-bff4-d0b4821cb4de)
