@@ -160,3 +160,48 @@ def GridSearch(Model_Abb, Parameters, X_train, Y_train):
     
     return (Model_Name)
 ```
+
+## 1: Logistic Regression Model
+```python
+### Logistic Regression
+from sklearn.linear_model import LogisticRegression
+LR= LogisticRegression()
+LR.fit(X_train_train , Y_train_train)
+
+LR.score(X_train_train, Y_train_train), LR.score(X_test_train, Y_test_train)
+
+Evaluate('Logistic Regression', LR, X_test_train, Y_test_train)
+```
+![LG_PERFORM](https://github.com/user-attachments/assets/4dc84228-7f04-4055-b34e-dc382dcf7b16)
+
+![LG_CFM](https://github.com/user-attachments/assets/db8bd42e-2bf3-47b0-94a2-98f6bea9da6f)
+
+ROC Plot
+```python
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, auc
+
+# Your code for training the logistic regression model
+
+# Get predicted probabilities for positive class
+Y_prob = LR.predict_proba(X_test_train)[:, 1]
+
+# Compute false positive rate, true positive rate, and threshold
+fpr, tpr, thresholds = roc_curve(Y_test_train, Y_prob)
+
+# Compute the area under the ROC curve (AUC)
+roc_auc = auc(fpr, tpr)
+
+# Plot the ROC curve
+plt.figure()
+plt.plot(fpr, tpr, label='ROC curve (AUC = %0.3f)' % roc_auc)
+plt.plot([0, 1], [0, 1], 'k--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic')
+plt.legend(loc="lower right")
+plt.show()
+```
+![Uploading LG_ROC.PNG…]()
