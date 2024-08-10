@@ -206,3 +206,58 @@ plt.show()
 ```
 
 ![LG_ROC](https://github.com/user-attachments/assets/43bc5400-c371-4927-86d1-ddd4dce6e5d1)
+
+
+## 2: Decision Tree Model
+```python
+### Decision Tree
+DT =DecisionTreeClassifier(max_features=6, max_depth=4)
+DT.fit(X_train_train, Y_train_train)
+
+DT.score(X_train_train, Y_train_train), DT.score(X_test_train, Y_test_train)
+
+Evaluate('Decision Tree Classifier', DT, X_test_train, Y_test_train)
+```
+![DT_PERFORM](https://github.com/user-attachments/assets/fd8b4b0f-3771-4aeb-afeb-9192c475fa80)
+
+![DT_CFM](https://github.com/user-attachments/assets/56a411f5-b7eb-4206-8858-068f84c34b26)
+
+ROC Plot
+```python
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, auc
+
+# Your code for training the decision tree classifier model
+
+# Get predicted probabilities for positive class
+Y_prob = DT.predict_proba(X_test_train)[:, 1]
+
+# Compute false positive rate, true positive rate, and threshold
+fpr, tpr, thresholds = roc_curve(Y_test_train, Y_prob)
+
+# Compute the area under the ROC curve (AUC)
+roc_auc = auc(fpr, tpr)
+
+# Plot the ROC curve
+plt.figure()
+plt.plot(fpr, tpr, label='ROC curve (AUC = %0.3f)' % roc_auc)
+plt.plot([0, 1], [0, 1], 'k--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic')
+plt.legend(loc="lower right")
+plt.show()
+```
+![DT_ROC](https://github.com/user-attachments/assets/6d2ffe50-3143-4f0c-884e-29751541d9d9)
+
+Plotting the Tree
+```python
+fig = plt.figure(figsize=(15,12))
+tree.plot_tree(DT, filled=True)
+```
+![Tree](https://github.com/user-attachments/assets/7b059799-a209-4768-b008-7dd809f2a069)
+
+
+
