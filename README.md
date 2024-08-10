@@ -259,5 +259,146 @@ tree.plot_tree(DT, filled=True)
 ```
 ![Tree](https://github.com/user-attachments/assets/7b059799-a209-4768-b008-7dd809f2a069)
 
+## 3: Random Forest
+```python
+### Random Forest Classifier
+max_depth= [1, 2, 3, 4, 5, 6, 7, 8, 9]
+Parameters={ 'max_depth': max_depth}
+
+RF= RandomForestClassifier()
+GridSearch(RF, Parameters, X_train_train, Y_train_train)
+
+RF.fit(X_train_train, Y_train_train)
+RF.score(X_train_train, Y_train_train), RF.score(X_test_train, Y_test_train)
+
+Evaluate('Random Forest Classifier', RF, X_test_train, Y_test_train)
+```
+![Random_PERFORM](https://github.com/user-attachments/assets/3ca21a8c-f6db-4ace-8ba9-043e5e4e374d)
+
+![Random_CFM](https://github.com/user-attachments/assets/53bcb48f-bb38-450a-ada2-7c3299cf55ba)
+
+ROC Plot
+```python
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, roc_auc_score
+
+# Assuming you have the trained Random Forest Classifier model (RF) and the test data (X_test, Y_test)
+y_pred_prob = RF.predict_proba(X_test_train)[:, 1]  # Predicted probabilities for the positive class
+fpr, tpr, thresholds = roc_curve(Y_test_train, y_pred_prob)
+auc = roc_auc_score(Y_test_train, y_pred_prob)
+
+# Plotting the ROC curve
+plt.plot(fpr, tpr, label='ROC curve (AUC = %0.2f)' % auc)
+plt.plot([0, 1], [0, 1], 'k--')  # Plotting the diagonal line
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate (1 - Specificity)')
+plt.ylabel('True Positive Rate (Sensitivity)')
+plt.title('Receiver Operating Characteristic (ROC) Curve')
+plt.legend(loc="lower right")
+plt.show()
+```
+
+![Random_ROC](https://github.com/user-attachments/assets/1a962370-73b8-4d30-9e82-899f3b9223c2)
+
+## 4: KNN Model
+```python
+#### KNN Model
+KNN= KNeighborsClassifier(n_neighbors=6) 
+KNN.fit(X_train_train, Y_train_train)
+
+KNN.score(X_train_train, Y_train_train), KNN.score(X_test_train, Y_test_train)
+Evaluate('KNN', KNN, X_test_train, Y_test_train)
+```
+![KNN_PERFORM](https://github.com/user-attachments/assets/9aac777a-8f38-49d0-a2a4-b49d4d1ac982)
+
+![KNN_CFM](https://github.com/user-attachments/assets/dce86e23-d9bb-495e-a875-95cf65471609)
+
+ROC Plot
+```python
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, roc_auc_score
+
+# Assuming you have the trained KNN model (KNN) and the test data (X_test_train, Y_test_train)
+y_pred_prob = KNN.predict_proba(X_test_train)[:, 1]  # Predicted probabilities for the positive class
+fpr, tpr, thresholds = roc_curve(Y_test_train, y_pred_prob)
+auc = roc_auc_score(Y_test_train, y_pred_prob)
+
+# Plotting the ROC curve
+plt.plot(fpr, tpr, label='ROC curve (AUC = %0.2f)' % auc)
+plt.plot([0, 1], [0, 1], 'k--')  # Plotting the diagonal line
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate (1 - Specificity)')
+plt.ylabel('True Positive Rate (Sensitivity)')
+plt.title('Receiver Operating Characteristic (ROC) Curve for KNN')
+plt.legend(loc="lower right")
+plt.show()
+```
+
+![KNN_ROC](https://github.com/user-attachments/assets/9abcebe7-a9b2-4667-9da6-6ce69bd3a728)
+
+## 5: SVM Model
+```python
+#### SVM Classifier
+Linear_SVC = svm.LinearSVC(C=1)
+Linear_SVC.fit(X_train_train, Y_train_train)
+
+Linear_SVC.score(X_train_train, Y_train_train), Linear_SVC.score(X_test_train, Y_test_train)
+Evaluate('SVM Linear SVC Kernel', Linear_SVC, X_test_train, Y_test_train)
+```
+
+![SVM_PERFORM](https://github.com/user-attachments/assets/a627b657-ca49-436e-aacf-f81f3056681c)
+
+![SVM_CFM](https://github.com/user-attachments/assets/66501966-18d3-4b00-9d21-7b43d9671d4f)
+
+ROC Plot
+```python
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, roc_auc_score
+
+# Assuming you have the trained SVM Linear SVC Kernel model (Linear_SVC) and the test data (X_test_train, Y_test_train)
+y_pred_prob = Linear_SVC.decision_function(X_test_train)  # Predicted decision scores
+fpr, tpr, thresholds = roc_curve(Y_test_train, y_pred_prob)
+auc = roc_auc_score(Y_test_train, y_pred_prob)
+
+# Plotting the ROC curve
+plt.plot(fpr, tpr, label='ROC curve (AUC = %0.2f)' % auc)
+plt.plot([0, 1], [0, 1], 'k--')  # Plotting the diagonal line
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate (1 - Specificity)')
+plt.ylabel('True Positive Rate (Sensitivity)')
+plt.title('Receiver Operating Characteristic (ROC) Curve for SVM Linear SVC Kernel')
+plt.legend(loc="lower right")
+plt.show()
+```
+
+![SVM_ROC](https://github.com/user-attachments/assets/c6974e3c-69a9-41da-8367-f0c78711871b)
+
+
+## Predicting Stage
+Uploading the data to be predicted for its class
+
+```python
+Pred_Data = pd.read_csv(r'C:\Users\Hp\Downloads\IDS_FinalProject\Test_data_pred.csv')
+Pred_Data
+```
+
+![Predicted_Data](https://github.com/user-attachments/assets/5c7a79f2-a107-43c9-b1a7-fc19328590b0)
+
+```python
+# Predicting the class (anomaly or attack) using the trained model
+predictions = Linear_SVC.predict(Pred_Data)
+
+# Convert the predicted values back to their original labels
+predicted_classes = attack_LE.inverse_transform(predictions)
+# Attach predicted_classes as a column to Pred_Data
+Pred_Data['predicted_class'] = predicted_classes
+
+Pred_Data
+```
+
+![Last_Pred](https://github.com/user-attachments/assets/7889cbd8-5e75-4015-b20b-58a589eac396)
 
 
