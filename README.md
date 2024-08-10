@@ -103,4 +103,60 @@ Trained_Data['class'] = attack_LE.fit_transform(Trained_Data["class"])
 Tested_Data['class'] = attack_LE.fit_transform(Tested_Data["class"])
 ```
 
+## Data Splitting
+```python
+### Data Splitting
+X_train = Trained_Data.drop('class', axis = 1)
+X_train = Trained_Data.drop('attack_state', axis = 1)
 
+X_test = Tested_Data.drop('class', axis = 1)
+X_test = Tested_Data.drop('attack_state', axis = 1)
+
+
+Y_train = Trained_Data['attack_state']
+Y_test = Tested_Data['attack_state']
+```
+
+## Data Scaling
+```python
+X_train_train,X_test_train ,Y_train_train,Y_test_train = train_test_split(X_train, Y_train, test_size= 0.25 , random_state=42)
+X_train_test,X_test_test,Y_train_test,Y_test_test = train_test_split(X_test, Y_test, test_size= 0.25 , random_state=42)
+
+### Data Scaling
+Ro_scaler = RobustScaler()
+X_train_train = Ro_scaler.fit_transform(X_train_train) 
+X_test_train= Ro_scaler.transform(X_test_train)
+X_train_test = Ro_scaler.fit_transform(X_train_test) 
+X_test_test= Ro_scaler.transform(X_test_test)
+```
+
+## Creation of the Function for the Models/Algorithms
+```python
+def Evaluate(Model_Name, Model_Abb, X_test, Y_test):
+    
+    Pred_Value= Model_Abb.predict(X_test)
+    Accuracy = metrics.accuracy_score(Y_test,Pred_Value)                      
+    Sensitivity = metrics.recall_score(Y_test,Pred_Value)
+    Precision = metrics.precision_score(Y_test,Pred_Value)
+    F1_score = metrics.f1_score(Y_test,Pred_Value)
+    Recall = metrics.recall_score(Y_test,Pred_Value)
+    
+    print('--------------------------------------------------\n')
+    print('The {} Model Accuracy   = {}\n'.format(Model_Name, np.round(Accuracy,3)))
+    print('The {} Model Sensitvity = {}\n'.format(Model_Name, np.round(Sensitivity,3)))
+    print('The {} Model Precision  = {}\n'.format(Model_Name, np.round(Precision,3)))
+    print('The {} Model F1 Score   = {}\n'.format(Model_Name, np.round(F1_score,3)))
+    print('The {} Model Recall     = {}\n'.format(Model_Name, np.round(Recall,3)))
+    print('--------------------------------------------------\n')
+    
+    Confusion_Matrix = metrics.confusion_matrix(Y_test, Pred_Value)
+    plot_confusion_matrix(Confusion_Matrix,class_names=['Normal', 'Attack'],figsize=(5.55,5), colorbar= "blue")
+    #plot_roc_curve(Model_Abb, X_test, Y_test)
+
+def GridSearch(Model_Abb, Parameters, X_train, Y_train):
+    Grid = GridSearchCV(estimator=Model_Abb, param_grid= Parameters, cv = 3, n_jobs=-1)
+    Grid_Result = Grid.fit(X_train, Y_train)
+    Model_Name = Grid_Result.best_estimator_
+    
+    return (Model_Name)
+```
